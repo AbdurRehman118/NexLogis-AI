@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+Lib/
+etc/
+Include/
+Scripts/
+mlruns/
+*.db
+
+# Node
+node_modules/
+dist/
+.env
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
