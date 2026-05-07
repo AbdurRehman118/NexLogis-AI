@@ -32,9 +32,9 @@ jobs:
         cache-dependency-path: web_app/package-lock.json
 
     - name: Install Web App Dependencies
-#      run: |
-#        cd web_app
-#        npm ci
+      run: |
+        cd web_app
+        npm install
 
     - name: Build Backend Docker Image
       run: |
