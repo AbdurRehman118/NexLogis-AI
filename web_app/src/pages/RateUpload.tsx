@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import { Upload, FileText, CheckCircle, AlertTriangle, Loader2, X, CloudUpload, FileSpreadsheet, FilePlus } from 'lucide-react';
 
-const API = 'http://localhost:8000';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 interface UploadResult { message: string; courier: string; filename: string; added: number; updated: number; total_records: number; }
 

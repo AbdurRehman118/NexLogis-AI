@@ -10,13 +10,46 @@ Include/
 Scripts/
 mlruns/
 *.db
+*.sqlite3
+.pytest_cache/
+.coverage
+htmlcov/
 
 # Node
 node_modules/
 dist/
+build/
+.eslintcache
+.npm
+.yarn-error.log
+
+# Environment Files
 .env
+.env.local
+.env.*.local
+# Allow environment templates/defaults to be tracked
+!.env.production
+!.env.development
+!.env.local.example
+
+# Local Data / Database (prevent tracking local state)
+api/rate_store.json
+api/uploads_log.json
+
+# Docker
+.dockerignore
+# (Wait, .dockerignore should be tracked)
+
+# OS Files
 .DS_Store
+Thumbs.db
 
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log

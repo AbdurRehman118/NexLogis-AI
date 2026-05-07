@@ -6,7 +6,7 @@ import {
   ChevronDown, ChevronUp, Filter, BarChart3, Award, Truck, RefreshCw
 } from 'lucide-react';
 
-const API = 'http://localhost:8000';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 interface RateResult {
   courier: string;

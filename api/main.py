@@ -26,8 +26,8 @@ app.add_middleware(
 )
 
 # ── Persistent rate store (JSON file as lightweight DB) ────────────────────────
-RATES_FILE = os.path.join(os.path.dirname(__file__), "rate_store.json")
-UPLOADS_LOG = os.path.join(os.path.dirname(__file__), "uploads_log.json")
+RATES_FILE = os.getenv("RATES_FILE", os.path.join(os.path.dirname(__file__), "rate_store.json"))
+UPLOADS_LOG = os.getenv("UPLOADS_LOG", os.path.join(os.path.dirname(__file__), "uploads_log.json"))
 
 def load_rates() -> list:
     if os.path.exists(RATES_FILE):
@@ -547,4 +547,6 @@ def get_uploads():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host=host, port=port, reload=True)
