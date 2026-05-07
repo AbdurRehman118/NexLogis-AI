@@ -42,4 +42,26 @@ jobs:
 
     - name: Build Frontend Docker Image
       run: |
-        docker build -t nexlogis-web:latest -f web_app/Dockerfile .
+        docker build -t nexlogis-web:latest --build-arg VITE_API_URL=http://${{ secrets.HOST }}:8000 -f web_app/Dockerfile .
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+
+    steps:
+    - name: Deploy to EC2 via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd NexLogis-AI || git clone https://github.com/${{ github.repository }}.git NexLogis-AI && cd NexLogis-AI
+          git pull origin main || git pull origin master
+          # Create .env files if they don't exist (from templates)
+          [ ! -f api/.env ] && cp api/.env.production api/.env
+          [ ! -f web_app/.env ] && cp web_app/.env.production web_app/.env
+          # Deploy
+          export VITE_API_URL=http://${{ secrets.HOST }}:8000
+          docker compose up -d --build
