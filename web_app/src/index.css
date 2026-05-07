@@ -1,39 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  /* Dark Mode (Default) - Premium Glassmorphism */
-  --bg-primary: #050508;
-  --bg-secondary: #0c0c14;
-  --bg-tertiary: #141420;
-  
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0b8;
-  --text-muted: #62627a;
-  
-  --accent-primary: #00d1ff;
-  --accent-secondary: #718093;
-  --accent-gradient: linear-gradient(135deg, #00d1ff 0%, #718093 100%);
-  --accent-glow: rgba(0, 209, 255, 0.15);
-  
-  --border-color: rgba(255, 255, 255, 0.08);
-  --glass-bg: rgba(12, 12, 20, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  
-  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.6);
-  --shadow-accent: 0 0 20px rgba(0, 209, 255, 0.2);
-  
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-full: 9999px;
-  
-  --transition-fast: 0.2s ease;
-  --transition-normal: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-[data-theme='light'] {
+  /* Default: Light Mode - Premium & Clean */
   --bg-primary: #f8f9fc;
   --bg-secondary: #ffffff;
   --bg-tertiary: #f0f2f7;
@@ -55,6 +23,38 @@
   --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.08);
   --shadow-accent: 0 0 20px rgba(59, 130, 246, 0.1);
+  
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme='dark'] {
+  --bg-primary: #050508;
+  --bg-secondary: #0c0c14;
+  --bg-tertiary: #141420;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b8;
+  --text-muted: #62627a;
+  
+  --accent-primary: #00d1ff;
+  --accent-secondary: #718093;
+  --accent-gradient: linear-gradient(135deg, #00d1ff 0%, #718093 100%);
+  --accent-glow: rgba(0, 209, 255, 0.15);
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(12, 12, 20, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.6);
+  --shadow-accent: 0 0 20px rgba(0, 209, 255, 0.2);
 }
 
 * {

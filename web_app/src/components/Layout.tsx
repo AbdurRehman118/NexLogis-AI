@@ -1,133 +1,96 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Sun, Moon, Box, Activity, Map, Truck, Mail } from 'lucide-react';
+import { Sun, Moon, Truck, LayoutDashboard, Calculator, CloudUpload, Info, Menu, X } from 'lucide-react';
+
+const NAV = [
+  { to: '/',           label: 'Home',        icon: Truck },
+  { to: '/aggregator', label: 'Rate Compare', icon: Calculator },
+  { to: '/upload',     label: 'Upload Rates', icon: CloudUpload },
+  { to: '/dashboard',  label: 'Dashboard',   icon: LayoutDashboard },
+  { to: '/about',      label: 'About',       icon: Info },
+];
 
 const Layout: React.FC = () => {
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
+  useEffect(() => { 
+    document.documentElement.setAttribute('data-theme', theme); 
+    // Add a class to body as well for global light-mode styling if needed
+    document.body.className = theme === 'light' ? 'light-mode' : 'dark-mode';
   }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
-  };
+  useEffect(() => { setMobileOpen(false); }, [location]);
 
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="flex flex-col" style={{ minHeight: '100vh' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
-      <header style={{ 
-        position: 'sticky', 
-        top: 0, 
-        zIndex: 100, 
-        background: 'var(--glass-bg)', 
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid var(--border-color)'
-      }}>
-        <div className="container" style={{ height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link to="/" className="flex items-center gap-3">
-            <div style={{ 
-              width: '40px', 
-              height: '40px', 
-              background: 'var(--accent-gradient)', 
-              borderRadius: '12px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: 'var(--shadow-accent)'
-            }}>
-              <Box size={24} color="#fff" />
+      <header style={{ position: 'sticky', top: 0, zIndex: 100, background: 'var(--glass-bg)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border-color)' }}>
+        <div className="container" style={{ height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          {/* Logo */}
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 38, height: 38, background: 'var(--accent-gradient)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-accent)' }}>
+              <Truck size={20} color="#fff" />
             </div>
-            <span style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
+            <span style={{ fontSize: '1.35rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
               NexLogis<span className="text-gradient">.ai</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="flex items-center gap-8 md-flex-col" style={{ display: 'flex' }} id="desktop-nav">
-             <div className="flex items-center gap-8 md-flex-col" style={{ display: 'contents' }}>
-                <Link to="/" className={`text-sm font-semibold hover-text-accent ${isActive('/') ? 'text-gradient' : 'text-secondary'}`}>Home</Link>
-                <Link to="/calculator" className={`text-sm font-semibold hover-text-accent ${isActive('/calculator') ? 'text-gradient' : 'text-secondary'}`}>Calculator</Link>
-                <Link to="/track" className={`text-sm font-semibold hover-text-accent ${isActive('/track') ? 'text-gradient' : 'text-secondary'}`}>Tracking</Link>
-                <Link to="/services" className={`text-sm font-semibold hover-text-accent ${isActive('/services') ? 'text-gradient' : 'text-secondary'}`}>Services</Link>
-                <Link to="/about" className={`text-sm font-semibold hover-text-accent ${isActive('/about') ? 'text-gradient' : 'text-secondary'}`}>About</Link>
-             </div>
-             
-             <div className="flex items-center gap-4">
-                <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle Theme">
-                  {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                </button>
-                <button className="btn btn-primary" style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem' }}>Get Started</button>
-             </div>
+          <nav style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            {NAV.map(({ to, label, icon: Icon }) => (
+              <Link key={to} to={to} style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '0.45rem 0.9rem', borderRadius: 10, fontSize: '0.85rem', fontWeight: 600,
+                background: isActive(to) ? 'rgba(0,209,255,0.1)' : 'transparent',
+                color: isActive(to) ? 'var(--accent-primary)' : 'var(--text-secondary)',
+                border: isActive(to) ? '1px solid rgba(0,209,255,0.2)' : '1px solid transparent',
+                transition: 'all 0.15s',
+              }}>
+                <Icon size={15} />{label}
+              </Link>
+            ))}
+            <button className="theme-toggle" onClick={() => setTheme(p => p === 'dark' ? 'light' : 'dark')} style={{ marginLeft: 8 }}>
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
           </nav>
+
+          {/* Mobile toggle */}
+          <button className="theme-toggle" onClick={() => setMobileOpen(p => !p)} style={{ display: 'none' }} id="mobile-menu-btn">
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
+
+        {/* Mobile Nav */}
+        {mobileOpen && (
+          <div style={{ borderTop: '1px solid var(--border-color)', padding: '1rem' }}>
+            {NAV.map(({ to, label, icon: Icon }) => (
+              <Link key={to} to={to} style={{
+                display: 'flex', alignItems: 'center', gap: 10, padding: '0.75rem 1rem', borderRadius: 10,
+                color: isActive(to) ? 'var(--accent-primary)' : 'var(--text-secondary)', fontWeight: 600, fontSize: '0.9rem',
+                background: isActive(to) ? 'rgba(0,209,255,0.08)' : 'transparent',
+              }}>
+                <Icon size={18} />{label}
+              </Link>
+            ))}
+          </div>
+        )}
       </header>
 
-      {/* Main Content */}
-      <main style={{ flex: 1 }}>
-        <Outlet />
-      </main>
+      <main style={{ flex: 1 }}><Outlet /></main>
 
-      {/* Footer */}
-      <footer style={{ 
-        background: 'var(--bg-secondary)', 
-        padding: '5rem 0 3rem',
-        borderTop: '1px solid var(--border-color)'
-      }}>
-        <div className="container">
-          <div className="grid grid-cols-4 gap-12 lg-grid-cols-2 md-grid-cols-1 mb-16">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Box size={24} color="var(--accent-primary)" />
-                <span className="text-xl font-bold">NexLogis</span>
-              </div>
-              <p className="text-secondary text-sm mb-6">
-                Redefining the logistics landscape through advanced machine learning and predictive analytics.
-              </p>
-              <div className="flex gap-4">
-                <a href="#" className="theme-toggle" style={{ width: '36px', height: '36px' }}><Activity size={18} /></a>
-                <a href="#" className="theme-toggle" style={{ width: '36px', height: '36px' }}><Map size={18} /></a>
-                <a href="#" className="theme-toggle" style={{ width: '36px', height: '36px' }}><Truck size={18} /></a>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="text-base font-bold mb-6">Capabilities</h4>
-              <ul className="flex flex-col gap-4 text-sm text-secondary">
-                <li><Link to="/calculator">AI Rate Estimation</Link></li>
-                <li><Link to="/track">Smart Inventory Hub</Link></li>
-                <li><Link to="/services">Enterprise Fleet Ops</Link></li>
-                <li><Link to="/services">Global Bridge Link</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-base font-bold mb-6">Resources</h4>
-              <ul className="flex flex-col gap-4 text-sm text-secondary">
-                <li><Link to="/about">System Documentation</Link></li>
-                <li><Link to="/about">API Access</Link></li>
-                <li><Link to="/about">Privacy Policy</Link></li>
-                <li><Link to="/about">Terms of Service</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-base font-bold mb-6">Newsletter</h4>
-              <p className="text-sm text-secondary mb-4">Stay updated with our latest model deployments.</p>
-              <div className="flex gap-2">
-                <input type="text" placeholder="Email" className="form-input" style={{ flex: 1, padding: '0.6rem 1rem' }} />
-                <button className="btn btn-primary" style={{ padding: '0.6rem' }}><Mail size={18} /></button>
-              </div>
-            </div>
+      <footer style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)', padding: '2.5rem 0' }}>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Truck size={20} color="var(--accent-primary)" />
+            <span style={{ fontWeight: 700 }}>NexLogis.ai</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>AI-Powered Courier Rate Aggregator</span>
           </div>
-          
-          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '2.5rem' }}>
-            <p className="text-center text-sm text-muted">
-              &copy; 2026 NexLogis.ai Industrial Systems. All rights reserved.
-            </p>
+          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+            © 2026 NexLogis Industrial Systems · All rights reserved
           </div>
         </div>
       </footer>
