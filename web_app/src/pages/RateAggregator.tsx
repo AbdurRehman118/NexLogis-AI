@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Package, MapPin, Weight, DollarSign, Zap, Shield, Clock,
-  TrendingDown, Star, AlertTriangle, CheckCircle, Loader2,
+  TrendingDown, AlertTriangle, CheckCircle, Loader2,
   ChevronDown, ChevronUp, Filter, BarChart3, Award, Truck, RefreshCw
 } from 'lucide-react';
 
